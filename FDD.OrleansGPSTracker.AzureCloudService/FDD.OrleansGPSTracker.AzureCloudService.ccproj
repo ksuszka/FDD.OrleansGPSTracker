@@ -46,6 +46,14 @@
       <RoleName>FDD.OrleansGPSTracker.DeviceGateway</RoleName>
       <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
     </ProjectReference>
+    <ProjectReference Include="..\FDD.OrleansGPSTracker.DeviceWebEmulator\FDD.OrleansGPSTracker.DeviceWebEmulator.csproj">
+      <Name>FDD.OrleansGPSTracker.DeviceWebEmulator</Name>
+      <Project>{e8adf852-dec2-4732-aad3-408160961744}</Project>
+      <Private>True</Private>
+      <RoleType>Web</RoleType>
+      <RoleName>FDD.OrleansGPSTracker.DeviceWebEmulator</RoleName>
+      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
+    </ProjectReference>
     <ProjectReference Include="..\FDD.OrleansGPSTracker.OrleansSilo\FDD.OrleansGPSTracker.OrleansSilo.csproj">
       <Name>FDD.OrleansGPSTracker.OrleansSilo</Name>
       <Project>{5e8526bb-fa54-4a96-97e9-d5507dcb4059}</Project>
@@ -57,10 +65,15 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="FDD.OrleansGPSTracker.DeviceGatewayContent\" />
+    <Folder Include="FDD.OrleansGPSTracker.DeviceWebEmulatorContent\" />
     <Folder Include="FDD.OrleansGPSTracker.OrleansSiloContent\" />
+    <Folder Include="Profiles" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="FDD.OrleansGPSTracker.DeviceGatewayContent\diagnostics.wadcfg">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="FDD.OrleansGPSTracker.DeviceWebEmulatorContent\diagnostics.wadcfg">
       <SubType>Content</SubType>
     </Content>
     <Content Include="FDD.OrleansGPSTracker.OrleansSiloContent\diagnostics.wadcfg">

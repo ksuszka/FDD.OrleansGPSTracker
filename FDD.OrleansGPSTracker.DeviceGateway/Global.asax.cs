@@ -10,6 +10,11 @@ namespace FDD.OrleansGPSTracker.DeviceGateway
 
         protected void Application_Start(object sender, EventArgs e)
         {
+            Initialize();
+        }
+
+        public static void Initialize()
+        {
             GlobalConfiguration.Configure(config =>
             {
                 config.MapHttpAttributeRoutes();
@@ -21,6 +26,11 @@ namespace FDD.OrleansGPSTracker.DeviceGateway
                 );
             });
 
+            InitializeOrleans();
+        }
+
+        private static void InitializeOrleans()
+        {
             if (!OrleansAzureClient.IsInitialized)
             {
                 FileInfo clientConfigFile = AzureConfigUtils.ClientConfigFileLocation;

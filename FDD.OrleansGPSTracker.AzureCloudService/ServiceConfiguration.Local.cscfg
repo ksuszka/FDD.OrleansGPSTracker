@@ -14,4 +14,12 @@
       <Setting name="DataConnectionString" value="UseDevelopmentStorage=true" />
     </ConfigurationSettings>
   </Role>
+  <Role name="FDD.OrleansGPSTracker.DeviceWebEmulator">
+    <Instances count="1" />
+    <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="DataConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="BingMapApplicationKey" value="BING_APPLICATION_KEY" />
+    </ConfigurationSettings>
+  </Role>
 </ServiceConfiguration>

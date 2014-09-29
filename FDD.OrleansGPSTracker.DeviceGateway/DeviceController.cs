@@ -14,7 +14,7 @@ namespace FDD.OrleansGPSTracker.DeviceGateway
     {
         public Guid GetDeviceId([FromUri] string name)
         {
-            var filteredName = name.ToLowerInvariant().Trim();
+            var filteredName = (name ?? string.Empty).ToLowerInvariant().Trim();
             return new Guid(SHA256Managed.Create().ComputeHash(Encoding.UTF8.GetBytes(filteredName)).Take(16).ToArray());
         }
 

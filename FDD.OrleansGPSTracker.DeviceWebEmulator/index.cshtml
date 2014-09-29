@@ -1,0 +1,172 @@
+﻿@using Microsoft.WindowsAzure
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <title>Orleans GPS Tracker Device Emulator</title>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.2.min.js"></script>
+    <style>
+        /* http://blog.stevensanderson.com/2011/10/05/full-height-app-layouts-a-css-trick-to-make-it-easier/ */
+        body {
+            margin: 0;
+            font-family: Verdana, Arial, sans-serif;
+        }
+
+        .row, .col {
+            overflow: hidden;
+            position: absolute;
+        }
+
+        .row {
+            left: 0;
+            right: 0;
+        }
+
+        .col {
+            top: 0;
+            bottom: 0;
+        }
+
+        .scroll-x {
+            overflow-x: auto;
+        }
+
+        .scroll-y {
+            overflow-y: auto;
+        }
+
+        .header.row {
+            height: 4em;
+            top: 0;
+        }
+
+        .body.row {
+            top: 4em;
+            bottom: 0px;
+        }
+
+        .footer.row {
+            height: 0px;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header row">
+        <div>
+            <form id="configuration_form" action="#" style="display: inline">
+                <span>Device name:</span>
+                <input type="text" id="device_name" />
+                <input type="submit" value="Start" />
+            </form>
+        </div>
+        <div>
+            <span>Device Id: </span><span id="device_guid"></span>
+        </div>
+        <div>
+            <span>Location: </span> <span id="device_location"></span>
+        </div>
+    </div>
+
+    <div class="body row">
+        <div id='mapDiv' style="position:absolute;top:0; bottom:0; left:0; right:0;"></div>
+    </div>
+
+    <div class="footer row">
+    </div>
+
+    <script type="text/javascript" src="http://ecn.dev.virtualearth.net/mapcontrol/mapcontrol.ashx?v=7.0"></script>
+
+    <script>
+        var map;
+        var devices = {};
+        var deviceId = null;
+
+        function updateDevice(deviceInfo) {
+            var loc = new Microsoft.Maps.Location(deviceInfo.Latitude, deviceInfo.Longitude);
+            if (devices[deviceInfo.Id]) {
+                devices[deviceInfo.Id].setLocation(loc);
+            } else {
+                devices[deviceInfo.Id] = new Microsoft.Maps.Pushpin(loc);
+                map.entities.push(devices[deviceInfo.Id]);
+            }
+            if (deviceInfo.Id !== deviceId) {
+                devices[deviceInfo.Id].setOptions({ icon: "http://www.bingmapsportal.com/Content/poi_custom.png" })
+            } else {
+                devices[deviceInfo.Id].setOptions({ icon: "http://ecn.dev.virtualearth.net/mapcontrol/v7.0/7.0.20140121124250.64/i/poi_search.png" })
+            }
+        }
+
+        function updateAllDevices(deviceInfos) {
+            var active = [];
+            deviceInfos.forEach(function(deviceInfo) {
+                updateDevice(deviceInfo);
+                active[deviceInfo.Id] = true;
+            });
+            $.each(devices, function(key, value) {
+                if (!active[key]) {
+                    map.entities.remove(value);
+                    delete devices[key];
+                }
+            });
+        }
+
+        function updatePosition() {
+            if (deviceId != null) {
+                var location = map.getCenter();
+                $("#device_location").text(location.latitude + ", " + location.longitude);
+                $.ajax({
+                    url: "/api/device/" + deviceId,
+                    data: {
+                        latitude: location.latitude,
+                        longitude: location.longitude
+                    },
+                    type: 'GET'
+                }).done(function (newDevices) {
+                    updateAllDevices(newDevices);
+                });
+            };
+        }
+
+        function viewChanged(e) {
+            updatePosition();
+        }
+
+        $(document).ready(function () {
+
+            // Set some random device name
+            $("#device_name").val(Math.random().toString(36).substring(2));
+
+            $("#configuration_form").submit(function (event) {
+                $.ajax("/api/device?name=" + encodeURIComponent($("#device_name").val()))
+                    .done(function (deviceGuid) {
+                        deviceId = deviceGuid;
+                        $("#device_guid").text(deviceId);
+                    });
+                event.preventDefault();
+            });
+
+            setInterval(function () {
+                updatePosition();
+            }, 1000);
+
+            @{
+                var bingMapApplicationKey = CloudConfigurationManager.GetSetting("BingMapApplicationKey");
+            }
+            var mapOptions = {
+                credentials: "@bingMapApplicationKey",
+                center: new Microsoft.Maps.Location(50.2778, 18.6843),
+                mapTypeId: Microsoft.Maps.MapTypeId.road,
+                zoom: 13,
+                showScalebar: false
+            }
+
+            map = new Microsoft.Maps.Map(document.getElementById("mapDiv"), mapOptions);
+
+            Microsoft.Maps.Events.addHandler(map, 'viewchange', viewChanged);
+        });
+
+    </script>
+</body>
+</html>

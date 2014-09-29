@@ -12,8 +12,8 @@ namespace FDD.OrleansGPSTracker.Grains
     /// </summary>
     public class DeviceGrain : Grain, IDeviceGrain
     {
-        private static readonly double latitudeBeaconOffset = 0.01;
-        private static readonly double longitudeBeaconOffset = 0.01;
+        private static readonly double latitudeBeaconOffset = 0.05;
+        private static readonly double longitudeBeaconOffset = 0.1;
 
         private IBeaconGrain _currentBeacon;
         private HashSet<IBeaconGrain> _beacons;
@@ -76,7 +76,6 @@ namespace FDD.OrleansGPSTracker.Grains
 
         static private Guid GetBeaconId(double latitude, double longitude)
         {
-            // c.a. 1km
             var lat = Convert.ToInt32(Math.Round(latitude / latitudeBeaconOffset));
             var lon = Convert.ToInt32(Math.Round(longitude / longitudeBeaconOffset));
 

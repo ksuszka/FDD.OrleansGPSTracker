@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ServiceDefinition name="FDD.OrleansGPSTracker.AzureCloudService" xmlns="http://schemas.microsoft.com/ServiceHosting/2008/10/ServiceDefinition" schemaVersion="2014-06.2.4">
-  <WebRole name="FDD.OrleansGPSTracker.DeviceGateway" vmsize="Small">
+  <WebRole name="FDD.OrleansGPSTracker.DeviceGateway" vmsize="ExtraSmall">
     <Sites>
       <Site name="Web">
         <Bindings>
@@ -36,4 +36,23 @@
       <Task commandLine="CounterControl.exe" executionContext="elevated" taskType="simple" />
     </Startup>
   </WorkerRole>
+  <WebRole name="FDD.OrleansGPSTracker.DeviceWebEmulator" vmsize="ExtraSmall">
+    <Sites>
+      <Site name="Web">
+        <Bindings>
+          <Binding name="Endpoint1" endpointName="Endpoint1" />
+        </Bindings>
+      </Site>
+    </Sites>
+    <Endpoints>
+      <InputEndpoint name="Endpoint1" protocol="http" port="8080" />
+    </Endpoints>
+    <Imports>
+      <Import moduleName="Diagnostics" />
+    </Imports>
+    <ConfigurationSettings>
+      <Setting name="DataConnectionString" />
+      <Setting name="BingMapApplicationKey" />
+    </ConfigurationSettings>
+  </WebRole>
 </ServiceDefinition>
