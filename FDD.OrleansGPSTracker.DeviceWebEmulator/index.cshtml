@@ -80,8 +80,8 @@
 
     <script>
         var map;
-        var devices = {};
-        var deviceId = null;
+        var devices = {};               // Collection of surrounding devices.
+        var emulatedDeviceId = null;    // Id of the device we are emulating.
 
         function updateDevice(deviceInfo) {
             var loc = new Microsoft.Maps.Location(deviceInfo.Latitude, deviceInfo.Longitude);
@@ -91,7 +91,7 @@
                 devices[deviceInfo.Id] = new Microsoft.Maps.Pushpin(loc);
                 map.entities.push(devices[deviceInfo.Id]);
             }
-            if (deviceInfo.Id !== deviceId) {
+            if (deviceInfo.Id !== emulatedDeviceId) {
                 devices[deviceInfo.Id].setOptions({ icon: "http://www.bingmapsportal.com/Content/poi_custom.png" })
             } else {
                 devices[deviceInfo.Id].setOptions({ icon: "http://ecn.dev.virtualearth.net/mapcontrol/v7.0/7.0.20140121124250.64/i/poi_search.png" })
@@ -112,12 +112,12 @@
             });
         }
 
-        function updatePosition() {
-            if (deviceId != null) {
+        function updateEmulatedDevicePosition() {
+            if (emulatedDeviceId != null) {
                 var location = map.getCenter();
                 $("#device_location").text(location.latitude + ", " + location.longitude);
                 $.ajax({
-                    url: "/api/device/" + deviceId,
+                    url: "/api/device/" + emulatedDeviceId,
                     data: {
                         latitude: location.latitude,
                         longitude: location.longitude
@@ -130,25 +130,26 @@
         }
 
         function viewChanged(e) {
-            updatePosition();
+            updateEmulatedDevicePosition();
         }
 
         $(document).ready(function () {
 
-            // Set some random device name
+            // Set some random device name.
             $("#device_name").val(Math.random().toString(36).substring(2));
 
             $("#configuration_form").submit(function (event) {
                 $.ajax("/api/device?name=" + encodeURIComponent($("#device_name").val()))
                     .done(function (deviceGuid) {
-                        deviceId = deviceGuid;
-                        $("#device_guid").text(deviceId);
+                        emulatedDeviceId = deviceGuid;
+                        $("#device_guid").text(emulatedDeviceId);
                     });
                 event.preventDefault();
             });
 
+            // Update emulated device position and poll for other devices positions.
             setInterval(function () {
-                updatePosition();
+                updateEmulatedDevicePosition();
             }, 1000);
 
             @{
