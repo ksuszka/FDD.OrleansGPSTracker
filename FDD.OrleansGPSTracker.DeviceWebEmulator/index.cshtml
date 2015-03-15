@@ -92,9 +92,9 @@
                 map.entities.push(devices[deviceInfo.Id]);
             }
             if (deviceInfo.Id !== emulatedDeviceId) {
-                devices[deviceInfo.Id].setOptions({ icon: "http://www.bingmapsportal.com/Content/poi_custom.png" })
+                devices[deviceInfo.Id].setOptions({ icon: "images/orange_pin.png" });
             } else {
-                devices[deviceInfo.Id].setOptions({ icon: "http://ecn.dev.virtualearth.net/mapcontrol/v7.0/7.0.20140121124250.64/i/poi_search.png" })
+                devices[deviceInfo.Id].setOptions({ icon: "images/green_pin.png" });
             }
         }
 
