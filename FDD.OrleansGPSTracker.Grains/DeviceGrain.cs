@@ -54,16 +54,16 @@ namespace FDD.OrleansGPSTracker.Grains
             return (await GetSurroundingDevices()).ToList();
         }
 
-        public override Task ActivateAsync()
+        public override Task OnActivateAsync()
         {
             _beacons = new HashSet<IBeaconGrain>();
-            return base.ActivateAsync();
+            return base.OnActivateAsync();
         }
 
-        public override async Task DeactivateAsync()
+        public override async Task OnDeactivateAsync()
         {
             await Cleanup();
-            await base.DeactivateAsync();
+            await base.OnDeactivateAsync();
         }
 
         private async Task Cleanup()

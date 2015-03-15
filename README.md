@@ -18,8 +18,8 @@ Running sample
 
 To run this code you will need to install a few things:
 - Visual Studio 2013
-- Orleans SDK (September 2014 preview)
-- Azure SDK 2.4
+- [Orleans SDK 1.0.1 (January 2015)](https://github.com/dotnet/orleans/releases/tag/v1.0.1)
+- Azure SDK 2.5
 
 To run web device emulator you will need Bing Maps Application Key which can be generated for free on
 https://www.bingmapsportal.com/.

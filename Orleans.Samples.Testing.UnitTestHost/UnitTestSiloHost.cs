@@ -97,8 +97,8 @@ namespace Orleans.Samples.Testing
                     throw new TimeoutException("Timeout during test initialization", ex);
                 }
                 throw new AggregateException(
-                    string.Format("Exception during test initialization: {0}", 
-                        Logger.PrintException(ex)), ex);
+                    string.Format("Exception during test initialization: {0}",
+                        TraceLogger.PrintException(ex)), ex);
             }
         }
 
@@ -203,7 +203,7 @@ namespace Orleans.Samples.Testing
         {
             try
             {
-                OrleansClient.Uninitialize();
+                GrainClient.Uninitialize();
             }
             catch (Exception exc) { Console.WriteLine(exc); }
 
@@ -243,7 +243,7 @@ namespace Orleans.Samples.Testing
             Primary = _StartOrleansSilo(Silo.SiloType.Primary, primarySiloOptions);
             Secondary = _StartOrleansSilo(Silo.SiloType.Secondary, secondarySiloOptions);
             WaitForLivenessToStabilize();
-            OrleansClient.Initialize();
+            GrainClient.Initialize();
         }
 
         /// <summary>
@@ -298,7 +298,7 @@ namespace Orleans.Samples.Testing
             if (options.StartFreshOrleans)
             {
                 // the previous test was !startFresh, so we need to cleanup after it.
-                if (Primary != null || Secondary != null || GrainClient.Current != null)
+                if (Primary != null || Secondary != null || GrainClient.IsInitialized)
                 {
                     StopDefaultSilos();
                 }
@@ -340,7 +340,7 @@ namespace Orleans.Samples.Testing
                 Secondary = _StartOrleansSilo(Silo.SiloType.Secondary, options);
             }
 
-            if (GrainClient.Current == null && options.StartClient)
+            if (!GrainClient.IsInitialized && options.StartClient)
             {
                 if (clientOptions != null && clientOptions.ClientConfigFile != null)
                 {
@@ -374,14 +374,14 @@ namespace Orleans.Samples.Testing
                     clientConfig.LargeMessageWarningThreshold = options.LargeMessageWarningThreshold;
 
                 }
-                OrleansClient.Initialize(clientConfig);
+                GrainClient.Initialize(clientConfig);
             }
         }
 
         private SiloHandle _StartOrleansSilo(Silo.SiloType type, UnitTestSiloOptions options, AppDomain shared = null)
         {
             // Load initial config settings, then apply some overrides below.
-            OrleansConfiguration config = new OrleansConfiguration();
+            ClusterConfiguration config = new ClusterConfiguration();
             if (options.SiloConfigFile == null)
             {
                 config.StandardLoad();
@@ -479,7 +479,7 @@ namespace Orleans.Samples.Testing
             instance.Process = null;
         }
 
-        private Silo _LoadSiloInNewAppDomain(string siloName, Silo.SiloType type, OrleansConfiguration config, out AppDomain appDomain)
+        private Silo _LoadSiloInNewAppDomain(string siloName, Silo.SiloType type, ClusterConfiguration config, out AppDomain appDomain)
         {
             AppDomainSetup setup = GetAppDomainSetupInfo();
            

@@ -1,4 +1,4 @@
-﻿using Orleans.Host;
+﻿using Orleans.Runtime.Host;
 using System;
 using System.IO;
 using System.Web.Http;
@@ -31,14 +31,14 @@ namespace FDD.OrleansGPSTracker.DeviceGateway
 
         private static void InitializeOrleans()
         {
-            if (!OrleansAzureClient.IsInitialized)
+            if (!AzureClient.IsInitialized)
             {
                 FileInfo clientConfigFile = AzureConfigUtils.ClientConfigFileLocation;
                 if (!clientConfigFile.Exists)
                 {
                     throw new FileNotFoundException(string.Format("Cannot find Orleans client config file for initialization at {0}", clientConfigFile.FullName), clientConfigFile.FullName);
                 }
-                OrleansAzureClient.Initialize(clientConfigFile);
+                AzureClient.Initialize(clientConfigFile);
             }
         }
     }

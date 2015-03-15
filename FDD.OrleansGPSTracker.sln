@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FDD.OrleansGPSTracker.GrainInterfaces", "FDD.OrleansGPSTracker.GrainInterfaces\FDD.OrleansGPSTracker.GrainInterfaces.csproj", "{A7A169F0-395D-4165-AFDE-4CE411E314F5}"
 EndProject
@@ -18,13 +18,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{DA0BEE
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "FDD.OrleansGPSTracker.AzureCloudService", "FDD.OrleansGPSTracker.AzureCloudService\FDD.OrleansGPSTracker.AzureCloudService.ccproj", "{67168AA7-DF8A-48B6-81B2-1924C686CB13}"
+Project("{2B9991BB-E522-30BD-AEAA-44A7C0A198E8}") = "FDD.OrleansGPSTracker.AzureCloudService", "FDD.OrleansGPSTracker.AzureCloudService\FDD.OrleansGPSTracker.AzureCloudService.ccproj", "{67168AA7-DF8A-48B6-81B2-1924C686CB13}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FDD.OrleansGPSTracker.DeviceGateway", "FDD.OrleansGPSTracker.DeviceGateway\FDD.OrleansGPSTracker.DeviceGateway.csproj", "{189169E1-72AE-4BFE-8897-B95F8476FE24}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FDD.OrleansGPSTracker.OrleansSilo", "FDD.OrleansGPSTracker.OrleansSilo\FDD.OrleansGPSTracker.OrleansSilo.csproj", "{5E8526BB-FA54-4A96-97E9-D5507DCB4059}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FDD.OrleansGPSTracker.DeviceWebEmulator", "FDD.OrleansGPSTracker.DeviceWebEmulator\FDD.OrleansGPSTracker.DeviceWebEmulator.csproj", "{E8ADF852-DEC2-4732-AAD3-408160961744}"
+	ProjectSection(ProjectDependencies) = postProject
+		{189169E1-72AE-4BFE-8897-B95F8476FE24} = {189169E1-72AE-4BFE-8897-B95F8476FE24}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

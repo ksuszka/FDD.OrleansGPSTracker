@@ -29,10 +29,10 @@ namespace FDD.OrleansGPSTracker.Grains
             return _devices.Values.ToList();
         }
 
-        public override Task ActivateAsync()
+        public override Task OnActivateAsync()
         {
             _devices = new Dictionary<Guid, DeviceInfo>();
-            return base.ActivateAsync();
+            return base.OnActivateAsync();
         }
     }
 }

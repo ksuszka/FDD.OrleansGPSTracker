@@ -1,5 +1,5 @@
 using Microsoft.WindowsAzure.ServiceRuntime;
-using Orleans.Host;
+using Orleans.Runtime.Host;
 using System.Diagnostics;
 using System.Net;
 
@@ -7,7 +7,7 @@ namespace FDD.OrleansGPSTracker.OrleansSilo
 {
     public class WorkerRole : RoleEntryPoint
     {
-        private OrleansAzureSilo orleansAzureSilo;
+        private AzureSilo orleansAzureSilo;
 
         public override void Run()
         {
@@ -23,7 +23,7 @@ namespace FDD.OrleansGPSTracker.OrleansSilo
             // For information on handling configuration changes
             // see the MSDN topic at http://go.microsoft.com/fwlink/?LinkId=166357.
 
-            orleansAzureSilo = new OrleansAzureSilo();
+            orleansAzureSilo = new AzureSilo();
 
             bool result = base.OnStart();
 
