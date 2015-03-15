@@ -14,6 +14,7 @@
     <Imports>
     </Imports>
     <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
       <Setting name="DataConnectionString" />
     </ConfigurationSettings>
   </WebRole>
@@ -21,6 +22,7 @@
     <Imports>
     </Imports>
     <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
       <Setting name="DataConnectionString" />
     </ConfigurationSettings>
     <LocalResources>
@@ -48,6 +50,7 @@
     <Imports>
     </Imports>
     <ConfigurationSettings>
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
       <Setting name="DataConnectionString" />
       <Setting name="BingMapApplicationKey" />
     </ConfigurationSettings>
